@@ -1,0 +1,20 @@
+Par défault la touche mod fait référence au bouton Windows.
+Vous avez accès à dix espaces de travail, numérotés en bas à gauche dans la barre d'état. N'apparaissent que l'espace en cours et les espaces qui contiennent des fenêtres.
+
+mod + Entrée : ouvre un terminal
+mod + flèche : pour se déplacer d'une fenêtre à l'autre
+mod + shift + flèche : pour déplacer une fenêtre par rapport aux autres
+mod + f : pour passer une fenêtre en plein écran (pareil pour revenir à sa taille initiale)
+mod + shift + a : pour fermer une fenêtre (q si c'est un clavier qwerty)
+mod + shift + e : pour quitter la session (pour appliquer des changements dans les fichiers de configuration par exemple
+mod + chiffre : pour se placer dans un espace, chiffre étant l'une des touches du pavé numérique, ou l'une des touches au-dessus de la rangée des lettres du haut du clavier 
+                (en qwerty, elles donnent directement les chiffres associés). Cela est valable de 1 à 9, mod+0 donnant accès à l'espace 10.
+mod + e : passer en mode par défaut au niveau des fenêtres
+mod + v : activer le mode vertical, puis appuyer sur mod + Entrée
+mod + h : activer le mode horizontal, puis appuyer sur mod + Entrée
+mod + z : afficher les fenêtres sous forme d'onglets sur une ligne en haut de l'écran, pour en garder une seule à l'écran à la fois
+mod + s : pour voir les en-têtes de fenêtre s'entasser sous forme de pile
+Pour revenir au mode par défaut, tapez mod+e.
+
+mod + shift + Espace : pour faire flotter une fenêtre
+mod + r : pour faire flotter une fenêtre, on uilise ensuite les flèches. On appuie sur Entrée pour sortir du mude resize.

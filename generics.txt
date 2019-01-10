@@ -1,0 +1,20 @@
+Le .profile est lu à chaque nouvelle console dans laquelle vous vous loggez (vous rentrez votre login / mot de passe).
+C'est le cas des consoles que vous ouvrez avec Ctrl + Alt + F1 à F6 (tty1 à tty6)
+
+Le .bashrc est lu lorsque vous ouvrez une console dans laquelle vous ne vous loggez pas. C'est le cas des consoles que vous
+ouvrez en mode graphique (Terminal sous Unity, Konsole sous KDE)
+
+2> : redirige les erreurs dans un fichier (s'il existe déjà, il sera écrasé) ;
+2>> : redirige les erreurs à la fin d'un fichier (s'il n'existe pas, il sera créé) ;
+2>&1 : redirige les erreurs au même endroit et de la même façon que la sortie standard.
+
+Plus de détails sur la direction des sorties standards:
+... >> /dev/null 2>&1 :
+	- >> /dev/null redirects standard output (stdout) to /dev/null, which discards it.
+	- & indicates the file descriptor:
+		1 is for standard output
+		2 is for standard error
+	- 2>&1 redirects standard error (2) to standard output (1), which then discards it as well since standard output has already been redirected.
+
+
+Chaîner des commandes avec "|" cela signifie connecter la sortie d'une commande à l'entrée d'une autre commande

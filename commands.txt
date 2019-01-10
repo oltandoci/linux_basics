@@ -1,0 +1,302 @@
+echo "${XDG_CURRENT_DESKTOP]" : afficher le détail à propose du gestionnaire de bureau
+history: lister les commandes exécutées sur le termianl
+pwd: afficher le dossier actuel
+which pwd: connaitre l'emplecement de la commande pwd
+ls -a : afficher tous les fichiers et dossiers cachés
+ls -F : indique le type d'élément
+ls -l : liste détaillée
+ls -lh : -h en complément avec -l sert ici à afficher la taille en Ko, Mo, Go
+ls -lt : -t en complément avec -l sert ici à trier par date de dernière modification
+ls -lrt : -r en complément avec -l et -t sert ici à renverser l'ordre des éléments déjà triés par -t
+cd: aller à son dossier personnel
+cd ~: la même chose que cd
+du -h: taille occupée par les dossiers (affichée en unités K,M,... grace à l'option -h)
+du -ah : -a pour afficher la taille des dossiers ET des fichiers
+du -sh : -s pour avoir juste le grand total
+cat syslog: afficher tout le fichier syslog
+less syslog: afficher le fichier syslog page par page
+
+	-Espace : affiche la suite du fichier. La touche Espace fait défiler le fichier vers le bas d'un « écran » de console. C'est
+	          celle que j'utilise le plus souvent.
+	-Entrée : affiche la ligne suivante. Cela permet donc de faire défiler le fichier vers le bas ligne par ligne.
+	          Vous pouvez aussi utiliser la touche Flèche vers le bas.
+	-d : affiche les onze lignes suivantes (soit une moitié d'écran). C'est un peu l'intermédiaire entre Espace (tout un écran) et
+	     Entrée (une seule ligne).
+	-b : retourne en arrière d'un écran.
+	     Vous pouvez aussi appuyer sur la touche Page Up.
+	-y : retourne d'une ligne en arrière.
+	     Vous pouvez aussi appuyer sur la touche Flèche vers le haut.
+	-u : retourne en arrière d'une moitié d'écran (onze lignes).
+	-q : arrête la lecture du fichier. Cela met fin à la commande less.
+
+head syslog: afficher le début du fichier syslog
+head -n 3 syslog: afficher le nombre de premières lignes, ici 3
+tail syslog: afficher la fin du fichier syslog
+tail -n 3 syslog: afficher le nombre de dernières lignes, ici 3
+tail -f syslog: suivre la fin du fichier au fur et à mesure de son évolution (Ctrl + C pour arrêter)
+touch : créer un fichier
+mkdir : créer un dossier
+mkdir -p animaux/vertebres/chat: -p sert à créer tous les dossiers intermédiaires
+cp : copier un fichier
+cp -R animaux autresanimaux: copier un dossier, ainsi que tous les sous-dossiers et fichiers qu'il contient
+mv : déplacer un fichier
+mv animaux/ mondossier/ : déplacera le dossier animaux (et tous ses sous-dossiers) dans mondossier
+rm : supprimer des fichiers et dossiers
+rm -i fichierbidon : -i permet de vous demander une confirmation pour chacun des fichiers
+rm -f fichierbidon: -f force la suppression, ne demande pas de confirmation, même s'il y a un problème potentiel
+rm -v fichier1 fichie2 : -v permet de demander à la commande de dire ce qu'elle est en train de faire
+rm -r animaux/ : -r pour supprimer un dossier et son contenu
+ln : créer des liens entre fichiers
+ln fichier1 fichier2 : lien physique pour créer un fichier2 qui partagera le même inode (le mêmecontenu) que fichier1
+ln -s fichier1 fichier2 : lien symbolique où dans ce cas fichier2 pointe sur fichier1 (les liens symboliques fonctionnent aussi sur les répertoires contrairement au liens physiques)
+sudo: exécuter une commande en root
+adduser patrick: ajouter un utilisateur qui se s'appelle patrcik
+passwd patrick : changer le mot de passe de l'utilisateur patrick (attention sans paramètre passwd modifie le mot de pase de l'utilistaeur courant)
+deluser patrick: supprimer le compte de patrick
+deluser --remove-home patrick : supprimer également le home et les fichiers personnels de patrick
+addgroup amis: créer le groupe amis
+usermod -g amis patrick: mettre patrick dans le groupe amis
+usermod -g patrick patrick: remettre patrick dans le groupe patrick comme il l'était avant
+delgroup amis: supprimer le groupe amis
+chown : changer le propriétaire d'un fichier
+chown patrick rapport.txt: patrick est bien le nouveau propriétaire du fichier rapport.txt
+chgrp amis rapport.txt: cette commande change le grouipe propriétaire d'un fichier et affectera le fichier rapport.txt au groupe amis
+chown patrick:amis rapport.txt: la même chose que chgrp mais avec la commande chown
+chown -R mateo21:mateo21 /home/patrick/ : donner tout le contenu du dossier personnel de patrick à mateo21 (et au groupe mateo21), le -R c'est affecter récursivement les sous-dossiers
+chmod : modifier les droits d'accès
+chmod -R 700 /home/mateo21 : affecter des droits sur un dossier avec -R, tous ses fichiers et sous-dossiersrécupèreront le même droit
+apt-get update : mettre à jour le cache des paquets
+apt-cache search lbreakout2: rechercher un paquet, ici lbreakout2
+apt-get install lbreakout2: installer un paquet, ici lbreakout2
+apt-get remove lbreakout2: supprimer un paquet, ici lbreakout2
+apt-get upgrade : mettre à jour tous les paquets (pensez à faire un apt-get update pour mettre à jour le cache des paquets sur votre machine avant de lancer un upgrade)
+man : afficher le manuel d'une commande (appuyez sur la touche Q pour quitter le manuel à tout moment, comme avec less)
+whatis : c'est une sorte de man très allégé
+locate notes.txt: recherche rapide du fichier notes.txt (locate lit la base de données donc il faut la mettre à jour)
+sudo updatedb: mettre à jour la base de données
+find /var/log/ -name "syslog" : recherche approfondie, où on spécifie le répertoire eainsi que le nom du fichier
+find / -name "syslog" : affiche tous les fichiers qui commençaient par syslog dans le répertoire racine
+find -size +10M : rechercher tous les fichiers qui font plus de 10 Mo
+find -name "*.odt" -atime -7 : indiquer le nombre de jours qui vous séparent du dernier accès à un fichier
+find /var/log -name "syslog" -type d : obtenir uniquement les répertoires qui s'appellent syslog (et non pas les fichiers car ceci s'utilisent avec -f)
+find -name "*.jpg" -delete : supprimer tous mes fichiers jpg (à utiliser avec précaution, il vaut mieux faire le find avant sans la suppression)
+find -name "*.jpg" -exec chmod 600 {} \; : pour chaque fichier .jpg trouvé, on exécute la commande qui suit -exec, ici chmod 600 (
+	-les accolades {} seront remplacées par le nom du fichier
+	-la commande doit finir par un \; obligatoirement
+find /usr/src/ -type f -name "*.h" -exec grep -inH "_stk_lim" --color=auto {} \; 2> /dev/null : chercher dans les headers le mot "stk_lim", les erreurs dirigés vers /dev/null
+grep -i alias .bashrc : renvoie toutes les lignes qui contiennent « alias », peu importent les majuscules et les minuscules, à l'intérieur du fichier .bashrc
+grep -n alias .bashrc : pour afficher les numéros des lignes retournées avec le mot alias
+grep -na : même chose mais cette fois-ci on spécifie à grep qu'il s'agit d'un fichier texte avec l'option -a
+grep -v alias .bashrc : connaître toutes les lignes qui ne contiennent pas le mot alias
+grep -r "Site du Zéro" code/ : recherchera la chaîne « Site du Zéro » dans tous les fichiers du répertoire code, y compris dans les sous-dossiers à cause du -r
+grep -E ^Alias .bashrc : -E pour faire comprendre à grep que l'on utilise une expression régulière et accent circonflexe qui signifie que le mot doit être placé au début de la ligne
+grep -E [Aa]lias .bashrc : renvoie toutes les lignes qui contiennent « alias » ou « Alias »
+grep -E [0-4] .bashrc : renvoie toutes les lignes qui contiennent un nombre compris entre 0 et 4
+grep -E [a-zA-Z] .bashrc : renvoie toutes les lignes qui contiennent un caractère alphabétique compris entre « a » et « z » ou entre « A » et « Z »
+sort noms.txt : le contenu du fichier noms.txt est trié alphabétiquement et le résultat est affiché dans la console
+sort -o noms_tries.txt noms.txt : écrira la liste de noms triés dans noms_tries.txt
+sort -r noms.txt : -r permet d'inverser le tri
+sort -R noms.txt : -R pour trier aléatoirement
+sort -n nombres.txt : -n pour trier les nombres car sans option le tri ne marchera pas comme on veut
+wc noms.txt : compter le nombre de lignes, ça renvoie dans l'ordre le nombre de lignes, de mots et d'octets
+wc -l noms.txt : pour avoir uniquement le nombre de lignes, utilisez -l
+wc -w noms.txt : pour avoir uniquement le nombre de mots, utilisez -w
+wc -c noms.txt : pour avoir uniquement le nombre de lignes, utilisez -c
+wc -m noms.txt : l'option -m renvoie le nombre de caractères
+uniq doublons.txt : au préalalble il faut avoir trié le fichier afin de supprimer les noms en double sur la console d'affichage
+uniq doublons.txt sans_doublons.txt : la liste sans doublons sera écrite dans sans_doublons.txt
+uniq -c doublons.txt : avec -c, la commande uniq vous affiche le nombre de fois que la ligne est présente dans le fichier
+uniq -d doublons.txt : -d pour afficher uniquement les lignes présentes en double
+cut -c 2-5 noms.txt : conserver uniquement les caractères 2 à 5 de chaque ligne du fichier, affichés sur la console
+cut -c -3 noms.txt : cette fois-ci pour conserver du 1er au 3ème caractère
+cut -c 3- noms.txt : de même, pour conserver du 3ème au dernier caractère
+cut -d , -f 1 notes.csv : couper le champs après un délimiteur, -d indique quel est le délimiteur dans le fichier, ici "," et -f indique le numéro du ou des champs à couper, ici "1"
+	-Ex de ligne d'un fichier csv: Fabrice,18 / 20,Excellent travail
+	-Le résultats vaut Fabrice
+cut -d , -f 3 notes.csv : si nous voulons juste les commentaires, dans ce cas on aura: Excellent travail
+cut -d , -f 1,3 notes.csv : pour avoir les champs n°1 et n°3 (le prénom et le commentaire), i.e. Fabrice,Excellent travail
+cut -d , -f 2-4 notes.csv : a pour effet de conserver les champs n°2, 3 et 4
+cut -d , -f 3- notes.csv : conserve les champs du n°3 jusqu'à la fin
+cut -d , -f 1 notes.csv > eleves.txt : le chevron simple ">" ça redirige la sortie de la commande cout dans le fichier eleves.txt
+cut -d , -f 1 notes.csv > /dev/null : /dev/null c'est un peu le « trou noir » de Linux : tout ce qui va là-dedans disparaît immédiatement
+cut -d , -f 1 notes.csv >> eleves.txt : le chevron double ">>" ça redirige la sortie de la commande cout à la fin du fichier eleves.txt (on ne risque pas don d'écraser le fichier)
+cut -d , -f 1 fichier_inexistant.csv > eleves.txt 2> erreurs.log : rediriger les erreurs dans un fichier à part
+	- "> eleves.txt" redirige le résultat de la commande (sauf les erreurs) dans le fichier eleves.txt. C'est la sortie standard
+	- "2> erreurs.log" redirige les erreurs éventuelles dans le fichier erreurs.log. C'est la sortie d'erreurs
+	- Notez qu'il est aussi possible d'utiliser "2>>" pour ajouter les erreurs à la fin du fichier
+cut -d , -f 1 fichier_inexistant.csv > eleves.txt 2>&1 : envoyer les erreurs au même endroit que le reste, ici 
+														 tout ira désormais dans eleves.txt : le résultat (si cela a fonctionné), de même que les erreurs (s'il y a eu un problème)
+cut -d , -f 1 fichier_inexistant.csv >> eleves.txt 2>&1 : ici les erreurs seront ajoutées à la fin du fichier eleves.txt comme le reste des messages
+cat < notes.csv : cela aura pour effet d'afficher le contenu du fichier envoyé en entrée
+sort -n << FIN : passe la console en mode saisie au clavier, ligne par ligne. Toutes ces lignes seront envoyées à la commande lorsque le mot-clé de fin aura été écrit, ici FIN
+sort -n << FIN > nombres_tries.txt 2>&1 : les nombres saisis au clavier seront envoyés à nombres_tries.txt, de même que les erreurs éventuelles
+cut -d , -f 1 notes.csv | sort : le pipe "|" effectue la connexion entre la sortie de cut (des noms dans le désordre) et l'entrée de sort
+cut -d , -f 1 notes.csv | sort > noms_tries.txt : on peut même aller plus loin et écrire cette liste triée dans un fichier 
+du | sort -nr : on envoie tout le contenu de du à sort qui se charge de trier les nombres au début de chacune des lignes
+du | sort -nr | head : on reconnecte la sortie précédente sur le header afin de filtrer uniquement les premières lignes
+du | sort -nr | less : si vous voulez naviguer à travers tous les résultats, vous pouvez connecter la sortie à less. Cette commande permet d'afficher
+					   des résultats page par page
+sudo grep log -Ir /var/log | cut -d : -f 1 | sort | uniq : lister les fichiers contenant un mot
+		- on liste tous les fichiers contenant le mot « log » dans /var/log (-I permettant d'exclure les fichiers binaires)
+		- on extrait de ce résultat uniquement les noms des fichiers
+		- on trie ces noms de fichiers
+		- on supprime les doublons
+w : qui est actuellement connecté sur la machine
+	- date
+	- uptime
+	- tload
+	- who
+ps : liste statique des processus
+ps -u mateo21 : lister le procesus utilisés que par l'utilisateur mateo21
+ps -ef : lister tous les processus
+ps -ejH : afficher les processus en arbre
+ps -u mateo21: lister les processus lancés par l'utilisateur mateo21
+ps aux : lister tous les processus avec la syntaxe BSD (utili pour voir les inputs des programmes lancés)
+top : liste dynamique des processus
+	B : met en gras certains éléments.
+	f : ajoute ou supprime des colonnes dans la liste.
+	F : change la colonne selon laquelle les processus sont triés. En général, laisser le tri par défaut en fonction de %CPU est
+	suffisant.
+	u : filtre en fonction de l'utilisateur que vous voulez.
+	k : tue un processus, c'est-à-dire arrête ce processus. Ne vous inquiétez pas, en général les processus ne souffrent pas.
+	    On vous demandera le numéro (PID) du processus que vous voulez tuer.
+	s : change l'intervalle de temps entre chaque rafraîchissement de la liste (par défaut, c'est toutes les trois secondes)
+kill : tuer un processus
+kill -9 32678: tuera le processus n°32678 (Firefox, dans mon cas) immédiatement sans lui laisser le temps de finir
+killall : tuer plusieurs processus
+halt : arrêter l'ordinateur
+reboot : redémarrer l'ordinateur
+nohup: détacher le processus de la console
+bg : passer le processus en arrière-plan (background) qui a été précédemment  stopé avec Ctrl + Z
+jobs : connaître les processus qui tournent en arrière-plan
+fg %2 : repprendre le processus, ici n°2 au premier plan cette fois-ci (ne pas oublier le signe "%" car ça permet au shel de faire la différence entre le numéro du process et le process ID)
+fg <process ID> : même chose que ci-dessus mais cette fois ci on renseigne le process ID
+kill %2 : terminer un programme qui tourne en background
+date "+%H:%M:%S" : afficher l'here, minutes et secondes
+date "+%Hh%Mm%Ss" : afficher en plus les lettres h, m et s
+at 14:17 : exécuter une commande plus tard, ici à 14H et 17min à l'heure d'aujourd'hui (à la fin des commandes faites Ctrl + D)
+at 14:17 tomorrow : la même chose mais demain
+at 14:17 11/15/18 : la même chose mais le 15/11/2018 (attention c'est le format US i.e. les numéros du jour et du mois sont inversés)
+at now +5 minutes : la même chose mais dans 5 minutes
+at now +2 weeks : la même chose mais dans 2 semainesn voci tous les mots clés;
+					-minutes
+					-hours
+					-days
+					-weeks
+					-months
+					-years
+atq : lister les jobs en attente crées avec at
+atrm 13: supprime le job, ici le n°13 (faire un atq avant pour lioster les numéros des jobs)
+touch fichier.txt; rm fichier.txt : enchaïner les commandes à la suite, ici touch est d'abord exécuté, puis une fois qu'il a fini ce sera le tour de rm
+touch fichier.txt; sleep 10; rm fichier.txt : la même chose mais on fait une pause de 10 sec entre les 2 commandes (sleep est en secondes)
+touch fichier.txt; sleep 1m; rm fichier.txt : la même chose mais on fait une pause de 1 min, voici les autres formats:
+					-m : minutes
+					-h : heures
+					-d : jours
+touch fichier.txt && sleep 10 && rm fichier.txt : la même chause mais on a remplacé les ; par des && (dans ce cas les instructions s'enchanent si elles sont correctement exécutés)
+tar -cvf tutoriels.tar tutoriels : créer une archive tar du dossier tutoriels contenant des fichiers
+										* -c : signifie créer une archive tar ;
+										* -v : signifie afficher le détail des opérations ;
+										* -f : signifie assembler l'archive dans un fichier.
+tar -tf tutoriels.tar : afficher le contenu de l'archive sans l'extraire
+tar -rvf tutoriels.tar fichier_supplementaire.tuto : si vous avez oublié un fichier, vous pouvez toujours l'ajouter par la suite avec -rvf
+tar -xvf tutoriels.tar : extraire les fichiers de l'archive
+gzip tutoriels.tar : l'archive est compressée et gagne ensuite le suffixe .gz
+gunzip tutoriels.tar.gz : décompresser l'archive
+bzip2 tutoriels.tar : l'archive est compressée et gagne ensuite le suffixe .bz2
+bunzip2 tutoriels.tar.bz2 : décompresser l'archive
+tar -zcvf tutoriels.tar.gz tutoriels : l'archive sera automatiquement compressée avec gzip
+tar -zxvf tutoriels.tar.gz : décompresser de façon rapide un gzip
+tar -jcvf tutoriels.tar.bz2 tutoriels : l'archive sera automatiquement compressée avec bzip2
+tar -jxvf tutoriels.tar.bz2 tutoriels : décompresser de façon rapide un bzip2
+tar -ztf, tutoriels.tar : afficher le contenu de l'archive compréssée avec gzip
+tar -jtf,, tutoriels.tar : afficher le contenu de l'archive compréssée avec bzip2
+gzip l-heritage.tuto : compresser un seul fichier, ici l-heritage.tuto
+zcat l-heritage.tuto.gz : décompresser le fichier à la volée et l'afficher dans la console
+zmore et zless, équivalents de more et less qui permettent d'afficher page par page, fonctionnent aussi
+unzip archive.zip : décompresser un .zip
+unzip -l tutoriels.zip : voir le contenu d'une archive zip sans l'extraire
+zip -r tutoriels.zip tutoriels : ziper le dossier tutoriels
+unrar e tutoriels.rar : décompresser un .rar (attention ici il n'y a pas de "-" devant e)
+unrar l tutoriels.rar : pour lister le contenu avant décompression (en revanche ce n'est pas possible de créer des .rar car c'est propriétaire)
+sudo /etc/init.d/ssh start : lancer le serveur openssh-server
+sudo /etc/init.d/ssh stop : arrêter le serveur openssh-server
+sudo /etc/init.d/ssh reload : prise en compte des changements effectués dans le fichier de configuration /etc/ssh/ssh_config 
+wget <link> : télécharger un fichier (avec la barre de progression ce qui est pratique)
+scp fichier_origine copie_destination : copie de fichiers de façon sécuriséee en utilisant SSH
+host <domaine> : affiche les infos (l'adressi IP, ...) du domaine
+whois <domaine> : tout savoir sur le nom de domaine
+ifconfig : liste des interfaces réseau
+ifconfig eth0 down : désactive l'interface eth0 (filaire)
+ifconfig eth0 up : la réactive de nouveau
+netstat -i : statistiques des interfaces réseau
+netstat -uta : lister toutes les connexions ouvertes
+				* -u : afficher les connexions UDP ;
+				* -t : afficher les connexions TCP ;
+				* -a : afficher toutes les connexions quel que soit leur état
+netstat -tan : ajouter -n si vous désirez avoir les numéros des ports plutôt qu'une description en toutes lettres
+netstat -lt : liste des connexions en état d'écoute
+netstat -s : statistiques résumées
+iptables -L : afficher les règles
+			-Chain INPUT : correspond aux règles manipulant le trafic entrant ;
+			-Chain FORWARD : correspond aux règles manipulant la redirection du trafic ;
+			-Chain OUTPUT : correspond aux règles manipulant le trafic sortant
+			-ACCEPT pour accepter le paquet
+			-REJECT pour le rejeter
+			-DROP pour l'ignorer complètement
+iptables -L --line-numbers : pour avoir les numéros des règles
+			-target : ce que fait la règle. Ici c'est ACCEPT, c'est-à-dire que cette ligne autorise un port et / ou une IP ;
+			-prot : le protocole utilisé (tcp, udp, icmp). Je rappelle que TCP est celui auquel on a le plus recourt. ICMP permet à
+					votre ordinateur de répondre aux requêtes de type « ping » ;
+			-source : l'IP de source. Pour INPUT, la source est l'ordinateur distant qui se connecte à vous ;
+			-destination : l'IP de destination. Pour OUTPUT, c'est l'ordinateur auquel on se connecte ;
+			-la dernière colonne : elle indique le port après les deux points « : ». Ce port est affiché en toutes lettres, mais avec -n
+				vous pouvez obtenir le numéro correspondant.
+iptables -F : attention, ça réinitialise toutes les règles iptables
+iptables -A (chain) -p (protocole) --dport (port) -j (décision) : ajouter une règle
+									* -A chain : ajoute une règle en fin de liste pour la chain indiquée (INPUT ou OUTPUT, par exemple).
+									* -D chain rulenum : supprime la règle n° rulenum pour la chain indiquée.
+									* -I chain rulenum : insère une règle au milieu de la liste à la position indiquée par rulenum. Si vous n'indiquez
+									   pas de position rulenum, la règle sera insérée en premier, tout en haut dans la liste.
+									* -R chain rulenum : remplace la règle n° rulenum dans la chain indiquée.
+									* -L : liste les règles (nous l'avons déjà vu).
+									* -F chain : vide toutes les règles de la chain indiquée. Cela revient à supprimer toutes les règles une par une pour
+									cette chain.
+									* -P chain regle : modifie la règle par défaut pour la chain. Cela permet de dire, par exemple, que par défaut tous les
+									ports sont fermés, sauf ceux que l'on a indiqués dans les règles.
+iptables -A INPUT -p tcp --dport ssh -j ACCEPT : Cela ajoute à la section INPUT (donc, pour le trafic entrant) une règle sur les données reçues via le protocole TCP sur le port de
+					ssh (vous pouvez remplacer ssh par le numéro du port, soit 22). Lorsque votre ordinateur recevra des données en TCP sur le
+					port de SSH, celles-ci seront acceptées ; cela vous permettra donc de vous connecter à distance à votre PC via SSH
+iptables -A INPUT -p tcp --dport www -j ACCEPT : la même chose mais pour le web (80)
+iptables -A INPUT -p tcp --dport imap2 -j ACCEPT : la même chose mais pour les mails
+iptables -A INPUT -p icmp -j ACCEPT : autoriser les pings (protocole ICMP), ici ça s'applique à tous els ports mais pour les pings (icmp) uniquement
+iptables -A INPUT -i lo -j ACCEPT : autorise tout le trafic sur l'interface de loopback locale grâce à -i lo
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT : autorise toutes les connexions qui sont déjà à l'état ESTABLISHED ou RELATED (demandées par votre PC)
+iptables -P INPUT DROP : refuser tout le traffic entrant, iptables devrait maintenant indiquer que par défaut tout est refusé, sauf ce qui est indiqué par les lignes dans le tableau
+sudo make install : pour installer le programme
+sudo make uninstall : pour désinstaller le programme
+env : afficher les variables globales d'environnement
+sudo apt-get install build-essential : télécharger les élemnts pour le buid
+sudo apt-get install linux-headers-`uname -r` : télécharger les headers du noyau en fonction de sa version
+ll -d /lib/modules/`uname -r`/build : vérifier la bonne installation des headers du noyau
+lsb_release -a : lire la version de linux installée
+systemctl status systemd-modules-load.service : voir le status des modules démarrés au boot
+lsblk : list block devices
+chsh : change your shell
+echo $PATH : to see what your PATH is
+export PATH=$PATH:/usr/toto : add /usr/toto directory in the PATH
+set path = ( $PATH /usr/toto ) : same as above
+man <number> <command> : number is optional here, it specifies the section (for ex chmod has 2 sections)
+free : information on system memory usage 
+dpkg -L <lib_name>: find installed library
+dpkg -l [grep <pattern>: find pattern installed
+#Checker le binaire en cours d'exécution
+*ps |grep toto
+2961 root     18880 S    toto
+19480 root      1104 S    grep toto
+*which toto
+/usr/bin/toto
+*md5sum  /proc/2961/exe 
+f865dab1764ca5a160a998f64b1693bc  /proc/2961/exe
+*md5sum  /usr/bin/toto
+f865dab1764ca5a160a998f64b1693bc  /usr/bin/toto

@@ -1,0 +1,58 @@
+echo "export EDITOR=nano" >> ~/.bashrc : cela aura pour effet d'écrire cette ligne à la fin de votre fichier .bashrc situé dans votre répertoire personnel
+
+crontab -l : afficher la liste des programmes enregistrés afin de séxécuter régulièrement, voci la liste des paramètres:
+			 * -e : modifier la crontab ;
+			 * -l : afficher la crontab actuelle ;
+			 * -r : supprimer votre crontab. Attention, la suppression est immédiate et sans confirmation !
+
+crontab -e : commencer la modification de crontab			 
+			 
+Le fichier ne contient qu'une seule ligne :
+Code : Console
+# m h dom mon dow command
+
+Comme cette ligne est précédée d'un #, il s'agit d'un commentaire (qui sera donc ignoré).
+Cette ligne vous donne quelques indications sur la syntaxe du fichier :
+	m : minutes (0 - 59) ;
+	h : heures (0 - 23) ;
+	dom (day of month ) : jour du mois (1 - 31) ;
+	mon (month) : mois (1 - 12) ;
+	dow (day of week ) : jour de la semaine (0 - 6, 0 étant le dimanche) ;
+	command : c'est la commande à exécuter.
+
+Imaginons que je veuille exécuter une commande tous les jours à 15 h 47. Je vais écrire ceci :
+47 15 * * * touch /home/mateo21/fichier.txt
+
+Seules les deux premières valeurs sont précisées : les minutes et les heures. Chaque fois qu'il est 15 h 47, la commande indiquée à
+la fin sera exécutée.
+
+Voci d'autres exemples:
+
+47 * * * * commande : Toutes les heures à 47 minutes exactement.> & Donc à 00 h 47, 01 h 47, 02 h 47, etc.
+0 0 * * 1 commande 	: Tous les lundis à minuit (dans la nuit de dimanche à lundi).
+0 4 1 * * commande 	: Tous les premiers du mois à 4 h du matin.
+0 4 * 12 * commande : Tous les jours du mois de décembre à 4 h du matin.
+0 * 4 12 * commande : Toutes les heures les 4 décembre.
+* * * * * commande 	: Toutes les minutes !
+
+La fréquence minimale avec cron, c'est toutes les minutes.
+
+Pour chaque champ, on a le droit à différentes notations :
+	5 (un nombre) : exécuté lorsque le champ prend la valeur 5 ;
+	* : exécuté tout le temps (toutes les valeurs sont bonnes) ;
+	3,5,10 : exécuté lorsque le champ prend la valeur 3, 5 ou 10. Ne pas mettre d'espace après la virgule ;
+	3-7 : exécuté pour les valeurs 3 à 7 ;
+	*/3 : exécuté tous les multiples de 3 (par exemple à 0 h, 3 h, 6 h, 9 h).
+	
+Voici, sur le tableau suivante, quelques exemples d'utilisation.
+
+30 5 1-15 * * commande 	: À 5 h 30 du matin du 1er au 15 de chaque mois.
+0 0 * * 1,3,4 commande 	: À minuit le lundi, le mercredi et le jeudi.
+0 */2 * * * commande 	: Toutes les 2 heures (00 h 00, 02 h 00, 04 h 00)
+*/10 * * * 1-5 commande	: Toutes les 10 minutes du lundi au vendredi.
+
+en pratique on renvoie tout vers un fichier, par ex:
+47 15 * * * touch /home/mateo21/fichier.txt >> /home/mateo21/cron.log 2>&1
+Tout sera envoyé dans cron.log : les messages et les erreurs
+Ou si on ne veut pas récupérer ce qui est affiché, tout simplement on le renvoie vers /dev/null comme ceci:
+47 15 * * * touch /home/mateo21/fichier.txt > /dev/null 2>&1
