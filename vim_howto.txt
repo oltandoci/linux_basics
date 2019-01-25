@@ -1,44 +1,25 @@
-Mode interactif : c'est le mode par défaut par lequel vous commencez. En lançant Vim, vous êtes donc en mode interactif.
-Dans ce mode, vous ne pouvez pas écrire de texte (oui, je sais, il s'agit d'un comble pour un éditeur de texte !). N'essayez
-donc pas d'appuyer sur des lettres au hasard car vous risqueriez de faire n'importe quoi !Le mode interactif est un mode
-puissant qui permet de se déplacer dans le texte, de supprimer une ligne, copier-coller du texte, rejoindre une ligne
-précise, annuler ses actions, etc. Chaque action peut être déclenchée en appuyant sur une touche du clavier (par
-exemple, on appuie sur u pour annuler la dernière action).
+Pour la configuration de vim, copier le fichier /etc/vim/vimrc dans son home puis l'éditer.
+cp /etc/vim/vimrc ~/.vimrc
 
-Mode insertion : celui-là, c'est celui que vous connaissez ! Vous tapez du texte et ce dernier s'insère à l'endroit où se
-trouve le curseur.
-Pour entrer dans ce mode, il existe plusieurs possibilités. L'une des plus courantes est d'appuyer sur la touche i
-(insertion). Pour en sortir, il faut appuyer sur la touche Echap.
+PASSER EN MODE INSERTION : Touche i
+SORTIR DU MODE INSERTION : Touche Echap
+REVENIR EN MODE INTERACTIF A PARTIR DU MODE INSERTION : Touche Echap
+PASSER EN MODE COMMANDE : Touche :
+REVENIR EN MODE INTERACTIF A PARTIR DU MODE COMMANDE : Touche Entrée
+PASSER EN MODE RECHERCHE : Touche /
 
-Mode commande : ce mode permet de lancer des commandes telles que « quitter », « enregistrer », etc. Vous pouvez aussi
-l'utiliser pour activer des options de Vim (comme la coloration syntaxique, l'affichage du numéro des lignes). Vous
-pouvez même envoyer des commandes au shell (la console) telles que ls, locate, cp, etc.
-Pour activer ce mode, vous devez être en mode interactif et appuyer sur la touche deux points « : ». Vous validerez la
-commande avec la touche Entrée et reviendrez alors au mode interactif.
+Recherche et déplacement en mode interactif :
 
-PASSER EN MODE INSERTION:
-i
-
-REVENIR EN MODE INTERACTIF A PARTIR DU MODE INSERTION:
-Touche du clavier: Echap
-
-PASSER EN MODE COMMANDE:
-:
-
-REVENIR EN MODE INTERACTIF A PARTIR DU MODE COMMANDE:
-Touche du clavier: Entrée
-
-FONCTIONNALITES DU MODE INTERCATIF:
-
-Le déplacement en mode interactif:
-	h : aller à gauche 
-	j : aller en bas 
-	k : aller en haut 
-	l : aller à droite
-        H : en haut de l'écran
-        M : au milieu de l'écran
-        L : en bas de l'écran
-
+h : aller à gauche 
+j : aller en bas 
+k : aller en haut 
+l : aller à droite
+H : en haut de l'écran
+M : au milieu de l'écran
+L : en bas de l'écran
+G : sauter à la dernière ligne
+gg : sauter à la première ligne
+7G : sauter à la ligne n°7, ainsi de suite ...
 0 : se déplacer en début de ligne
 ^ : se déplacer au premier caractère de la ligne (agit pareil que $ si pas d'espaces au debut de ligne)
 $ : se déplacer en fin de ligne
@@ -48,45 +29,41 @@ b : se déplacer de mot en mot en arrière
 ) : se déplacer d'une phrase en avant
 { : se deplacer d'un paragraphe en arrière
 } : se deplacer d'un paragraphe en avant
-fx : pour vous rendre sur la prochaine occurrence de la lettre x dans la ligne
-Fx : pour rechercher la lettre x vers le début de la ligne
+fx : vous rendre sur la prochaine occurrence de la lettre x dans la ligne
+Fx : rechercher la lettre x vers le début de la ligne
 
-Pour enregistrer votre fichier, vous devez être au préalable en mode interactif (appuyez sur Echap pour vous en assurer).
-Appuyez ensuite sur la touche deux points « : » pour passer en mode commande, puis tapez w (write) suivi du nom du
-fichier. La commande doit s'afficher en bas.
-Sinon il existe une autre façon depuis le mode interfactif sans passer en mode commande.
-Il suffit juste de tapper ZZ (en majuscule, c'est-à-dire Shift + zz ou Maj + zz)
+Enregistrement du fichier :
+
+- Depuis le mode interactif passer en mode commande, puis taper w (write) suivi du nom du fichier.
+- Depuis le mode interactif, tapper ZZ (en majuscule, c'est-à-dire Shift + zz ou Maj + zz)
+
+Effacement, annulation, copier/coller :
 
 x : effacer des lettres
-4x : ça va effacer les 4 prochaines lettres en partant du curseur, ainsi de suite ...
+4x : effacer les 4 prochaines lettres en partant du curseur, ainsi de suite ...
 dd : supprimer une ligne
 dw : supprimer un mot
 d3w : supprimer 3 mots, ainsi de suite ...
 d0 : vous supprimez du curseur jusqu'au début de la ligne
 d$ : vous supprimez du curseur jusqu'à la fin de la ligne
 yy : copier une ligne en mémoire
-yw : pour copier un mot
-y$ : pour copier du curseur jusqu'à la fin de la ligne
-y0 : pour copier du curseur jusqu'au début de la ligne
+yw : copier un mot
+y$ : copier du curseur jusqu'à la fin de la ligne
+y0 : copier du curseur jusqu'au début de la ligne
 p : coller
 r : remplacer une lettre
-u : annuler les modifications
+u :  annuler la dernière action
 4u : annuler vos quatre dernières modifications, ainsi de suite ...
 Ctrl + R : annuler une annulation
-G : sauter à la dernière ligne
-gg : sauter à la première ligne
-7G : sauter à la ligne n°7, ainsi de suite ...
 
-Si vous tapez /, vous passez en mode recherche. Le curseur se place en bas de l'écran (vous indiquant que vous êtes passés en
-mode commande).
-Écrivez ensuite le mot que vous recherchez, par exemple « remplir » : /remplir. Tapez ensuite sur Entrée pour valider.
-Le curseur se place alors sur la prochaine occurrence de « remplir » dans le fichier.
-Pour passer à la prochaine occurrence du mot, plus bas dans le fichier (s'il apparaît plusieurs fois), appuyez sur n. Pour
-rechercher en arrière, appuyez sur N (Maj + n).
+Recherche d'un mot :
 
+- En mode recherche appuyez sur n pour passer à la prochaine occurrence du mot.
+- En mode recherche appuyez sur N pour rechercher en arrière.
 
-FONCTIONNALITES DU MODE COMMANDE:
+Quelques fonctionnalités du mode commande :
 
+:!ls : lancer la commande externe "ls", ainsi de suite ...
 :w : enregistrer
 :w <nomfichier> : enregistrer avec un nom de fichier
 :q : quitter
@@ -95,28 +72,24 @@ FONCTIONNALITES DU MODE COMMANDE:
 :sp : découper l'écran horizontalement
 :vsp : découper l'écran verticalement
 
-Voici une liste de raccourcis pratiques que vous pouvez utiliser lorsque l'écran est splitté (scindé).
-	Ctrl + w puis Ctrl + w : navigue de viewport en viewport. Répétez l'opération plusieurs fois pour accéder au
-	viewport désiré.
-	Ctrl + w puis j : déplace le curseur pour aller au viewport juste en dessous. La même chose fonctionne avec les
-	touches h, k et l que l'on utilise traditionnellement pour se déplacer dans Vim.
-	Ctrl + w puis + : agrandit le viewport actuel.
-	Ctrl + w puis - : réduit le viewport actuel.
-	Ctrl + w puis = : égalise à nouveau la taille des viewports.
-	Ctrl + w puis r : échange la position des viewports. Fonctionne aussi avec « R » majuscule pour échanger en sens inverse.
-	Ctrl + w puis q : ferme le viewport actuel.
+Raccourcis lorsque l'écran est splitté :
+
+Ctrl + w puis Ctrl + w : navigue de viewport en viewport.
+Ctrl + w puis j : déplace le curseur pour aller au viewport juste en dessous. La même chose fonctionne avec les
+touches h, k et l que l'on utilise traditionnellement pour se déplacer dans Vim.
+Ctrl + w puis + : agrandit le viewport actuel.
+Ctrl + w puis - : réduit le viewport actuel.
+Ctrl + w puis = : égalise à nouveau la taille des viewports.
+Ctrl + w puis r : échange la position des viewports. Fonctionne aussi avec « R » majuscule pour échanger en sens inverse.
+Ctrl + w puis q : ferme le viewport actuel.
 	
-:!ls : lancer la commande externe "ls", ainsi de suite ...
+Options :
 
 :set <option> : activer une option
 :set <option>=<valeur> : activer une option avec une valeur
 :set <option>? : pour connaître l'état d'une option
 
-Activer des options dans un fichier de configuration c'est la meilleure façon de procéder. 
-Commencez par copier un fichier de configuration déjà commenté qui vousservira d'exemple : 
-il y en a un dans /etc/vim qui s'appelle vimrc
-Copiez-le dans votre répertoire personnel en le faisant précéder d'un point (pour que ce soit un fichier caché):
-cp /etc/vim/vimrc ~/.vimrc
+Exemples :
 
 :syntax on : activer la coloration syntaxique
 :set background=dark : mettre les couleurs en dark
