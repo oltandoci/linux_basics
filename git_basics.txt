@@ -1,415 +1,430 @@
-#On Windows systems, Git looks for the .gitconfig file in the $HOME directory 
-#(C:\Users\$USER for most people).
-#The first thing you should do when you install Git is to set your user name and email address.
-git config --global user.name "John Doe"
-git config --global user.email johndoe@example.com
-
-#As for the location of these three Windows Git configuration files, here is where you'll find them:
-#-The system Git config file is found in the mingw32\etc folder of the Git installation.
-#-The global Git configuration file is found in the root of the user's local profile or home directory 
-#(C:\Users\git-user\).
-#-The local Git config file is stored inside the .git directory of the repository in which 
-#you are working.
-#Sometimes users go looking for the global git config file, .gitconfig, and can't find it. 
-#That's because Git doesn't actually create it until it's used for the first time. 
-#Even just asking Git to edit the file will force its creation, but until that happens, 
-#efforts to find the .gitconfig file will be fruitless.
-#A quick command to force the creation of the .gitconfig file follows:
-git config --edit --global
-
-#If you are interested in viewing or editing Git config files, simply use the git config command, 
-#specify the scope and add an --edit switch.
-git config --global --edit
-git config --system --edit
-git config --local --edit
-
-#Now that your identity is set up, you can configure the default text editor that will be used when Git needs 
-#you to type in a message. If not configured, Git uses your system's default editor.
-#On a Windows system, if you want to use a different text editor, you must specify the full path to its 
-#executable file.
-git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -nosession"
-
-#If you want to check your settings, you can use the git config --list command to list all the settings 
-git config --list
-
-#If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of 
-#the Git commands:
-git help <verb>
-git <verb> --help
-man git-<verb>
-
-#If you're starting to track an existing project in Git, you need to go to the project's directory.
-cd /c/user/your_repository
-
-#The initialization creates a new subdirectory named .git that contains all of your necessary repository files 
-#in a Git repository skeleton. 
-git init
-
-#You clone a repository with git clone [url]. For example, if you want to clone the Git linkable library 
-#called libgit2, you can do so like this (by default git will create the origin):
-git clone https://github.com/libgit2/libgit2
-
-#If you want to clone the repository into a directory named something other than "libgit2" you can specify that 
-#as the next command-line option:
-git clone https://github.com/libgit2/libgit2 mylibgit
-#Or instead of origin, give a new name myproj 
-#(in this case the remote default branch will be myproj/master instead of origin/master)
-git clone -o myproj https://github.com/libgit2/libgit2 mylibgit
-
-#The main tool you use to determine which files are in which state is:
-git status
-
-#In order to begin tracking a new file, at 1st you need to stage it:
-git add <filename>
-
-#While the git status output is pretty comprehensive, it's also quite wordy. Git also has a short status flag 
-#so you can see your changes in a more compact way.
-git status -s
-status --short
-
-#Often, you'll have a class of files that you don't want Git to automatically add or even show you as 
-#being untracked. 
-#These are generally automatically generated files such as log files or files produced by 
-#your build system. 
-#In such cases, you can create a file listing patterns to match them named .gitignore
-cat .gitignore
-
-#This is an example of git ignore file:
-# a comment - this is ignored
-# no .a files
-*.a
-# but do track lib.a, even though you're ignoring .a files above
-!lib.a
-# only ignore the root TODO file, not subdir/TODO
-/TODO
-# ignore all files in the build/ directory
-build/
-# ignore doc/notes.txt, but not doc/server/arch.txt
-doc/*.txt
-# ignore all .txt files in the doc/ directory
-doc/**/*.txt
-
-#To see what you've changed but not yet staged, type git diff with no other arguments:
-git diff
-
-#If you want to see what you've staged that will go into your next commit, you can use git diff --staged. 
-#This command compares your staged changes to your last commit:
-git diff --staged
-
-#To see what you've changed with the local directory:
-git diff HEAD
-
-#To list the files that are already staged:
-git ls-files
-
-#To list the files in the current branch:
-git ls-tree --name-only <branch>
-
-#Now that your staging area is set up the way you want it, you can commit your changes
-git commit -m "commit description ..." (<filename> for a given file OR just a commit with a comment in order 
-#to commit all staged files)
-
-#To remove a file from Git, you have to remove it from your tracked files 
-#(more accurately, remove it from your staging area) and then commit. 
-#The git rm command does that, and also removes the file from your working directory so you don't see it 
-#as an untracked file the next time around.
-#The next time you commit, the file will be gone and no longer tracked.
-git rm <filename>
-#then
-git commit -m "delete file ..." <filename>
-
-#If you want to rename a file in Git, you can run something like:
-git mv file_from file_to
-#equivalet to
-mv file_from file_to
-git rm file_from
-git add file_to
-
-#When you run git log in this project, you should get output
-git log
-
-#Lists version history for a file, including renames
-git log --follow [file]
-
-#One of the more helpful options is -p, which shows the difference introduced in each commit. 
-#You can also use -n, which limits the output to only the last n entries:
-git log -p -2
-#or simply
-git log -2
-
-#For example, if you want to see some abbreviated stats for each commit, you can use the --stat option:
-git log --stat
-
-#However, the time-limiting options such as --since and --until are very useful. 
-#For example, this command gets the list of commits made in the last two weeks:
-git log --since=2.weeks
-
-#Show all SHA
-git log --pretty=oneline
-#or just a a shortened SHA
-git log --oneline 
-
-#Show also the graph
-git log --pretty="%h %s" -- graph
-#or
-git log --oneline --decorate --graph --all
-#or
-git log --pretty=format:"%ad %h %an %s" --date=short
-
-#If you want to see the last 3 logs for ex:
-git log --pretty=format:"%h %s" HEAD~3..HEAD
-#or
-git log -3 --pretty=format:"%h %s"
-
-#One of the common undos takes place when you commit too early and possibly forget to add some files, 
-#or you mess up your commit message. 
-#If you want to try that commit again, you can run commit with the --amend option.
-#As an example, if you commit and then realize you forgot to stage the changes in a file you wanted 
-#to add to this commit, you can do something like this:
-git commit -m 'initial commit'
-git add forgotten_file
-git commit --amend
-
-#To unstage a file:
-git reset HEAD <filename>
-
-#To revert changes in the working directory itself (a file which is currently modified):
-git checkout -- <filename>
-
-#To revert changes in the working directory from the staged area:
-git checkout <filename>
-
-#To revert changes in the working directory from the local repository:
-git checkout HEAD <filename>
-
-#To see which remote servers you have configured, you can run the git remote command.
-git remote
-
-#You can also specify -v, which shows you the URLs that Git has stored for the shortname to be used 
-#when reading and writing to that remote:
-git remote -v
-
-#To get the remote files in the local repository:
-git fetch <filename>
-#or
-git fetch [remote-name]
-
-#So, git fetch origin fetches any new work that has been pushed to that server since you cloned 
-#(or last fetched from) it
-git fetch origin
-
-#Running git pull generally fetches data from the server you originally cloned from and automatically 
-#tries to merge it into the code you're currently working on.
-git pull
-
-#When you have your project at a point that you want to share, you have to push it upstream. 
-git push [remote-name] [branch-name]
-#ex
-git push origin master
-
-#To create a new branch:
-git branch <branchname>
-
-#To switch to an existing branch, you run the git checkout command. Let's switch to the new branch 
-#(This moves HEAD to point to the testing branch.):
-git checkout <branchname>
-
-#Let's switch back to the master branch:
-git checkout master
-
-#To create a branch and switch to it at the same time, you can run the git checkout command 
-#with the -b switch:
-git checkout -b <branchname>
-#shorthand for
-git branch <branchname>
-git checkout <branchname>
-
-#You can run your tests, make sure the new branch is what you want, and merge it back into your master branch 
-#to deploy to production. You do this with the git merge command:
-git checkout master
-git merge <branchname>
-
-#After your super-important fix is deployed, you're ready to switch back to the work you were doing before 
-#you were interrupted. 
-#You can delete it with the -d option to git branch:
-git branch -d <branchname>
+Git looks for the .gitconfig file in the $HOME directory:
+The first thing you should do when you install Git is to set your user name and email address.
+ git config --global user.name "John Doe"
+ git config --global user.email johndoe@example.com
+
+As for the location of these three Windows/Linux Git configuration files, here is where you will find them:
+-The system Git config file is found in the folder of the Git installation,
+ under mingw32\etc on Windows or under /etc/gitconfig on Linux.
+-The global Git configuration file is found in the root of the user's local profile or home directory,
+ under C:\Users\<user> on Windows or under /home/<user> on Linux
+-The local Git config file is stored inside the .git directory of the repository in which you are working
+ under C:\Users\<user>\.git\config on Windows or under /home/<user>/.git/config on Linux
+Sometimes users go looking for the global git config file, .gitconfig, and can't find it. 
+That's because Git doesn't actually create it until it's used for the first time. 
+Even just asking Git to edit the file will force its creation, but until that happens, 
+efforts to find the .gitconfig file will be fruitless.
+
+A quick command to force the creation of the .gitconfig file follows:
+ git config --edit --global
+
+If you are interested in viewing or editing Git config files, simply use the git config command, 
+specify the scope and add an --edit switch.
+ git config --global --edit
+ git config --system --edit
+ git config --local --edit
+
+Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. 
+If not configured, Git uses your system's default editor.
+On a Windows system, if you want to use a different text editor, you must specify the full path to its executable file.
+ git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -nosession"
+ 
+Or, on Linux:
+ git config --global core.editor "/usr/bin/vim"
+ 
+If you want to check your settings, you can use the git config --list command to list all the settings 
+ git config --list --global
+ git config --list --system
+ git config --list --local
+
+If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+ git help <verb>
+ git <verb> --help
+ man git-<verb>
+
+If you're starting to track an existing project in Git, you need to go to the project's directory.
+ cd /path/to/repository
+
+The initialization creates a new subdirectory named .git that contains all of your necessary repository files, a Git repository skeleton. 
+ git init
+
+You clone a repository with git clone [url]. For example, if you want to clone the Git linkable library called libgit2,
+you can do so like this (by default git will create the origin):
+ git clone https://github.com/libgit2/libgit2
+
+If you want to clone the repository into a directory named something other than libgit2,
+you can specify that as the next command-line option:
+ git clone https://github.com/libgit2/libgit2 mylibgit
+ 
+Or instead of origin, give a new name myproj (in this case the remote default branch will be myproj/master instead of origin/master)
+ git clone -o myproj https://github.com/libgit2/libgit2 mylibgit
+
+The main tool you use to determine which files are in which state is:
+ git status
+
+In order to begin tracking a new file, at 1st you need to stage it:
+ git add <filename>
+
+While the git status output is pretty comprehensive, it's also quite wordy.
+Git also has a short status flag so you can see your changes in a more compact way.
+ git status -s
+ status --short
+
+Often, you will have a class of files that you don't want Git to automatically add or even show you as being untracked. 
+These are generally automatically generated files such as log files or files produced by your build system. 
+In such cases, you can create a file listing patterns to match them named .gitignore
+ cat .gitignore
+
+This is an example of git ignore file:
+ # a comment - this is ignored
+ # no .a files
+ *.a
+ # but do track lib.a, even though you're ignoring .a files above
+ !lib.a
+ # only ignore the root TODO file, not subdir/TODO
+ /TODO
+ # ignore all files in the build/ directory
+ build/
+ # ignore doc/notes.txt, but not doc/server/arch.txt
+ doc/*.txt
+ # ignore all .txt files in the doc/ directory
+ doc/**/*.txt
+
+To see what you've changed but not yet staged, type git diff with no other arguments:
+ git diff
+
+If you want to see what you've staged that will go into your next commit, you can use git diff --staged. 
+This command compares your staged changes to your last commit:
+ git diff --staged
+
+To see what you've changed with the local directory:
+ git diff HEAD
+
+To list the files that are already staged:
+ git ls-files
 
-#The git branch command does more than just create and delete branches. If you run it with no arguments, 
-#you get a simple listing of your current branches.
-#Notice the * character that prefixes the master branch: 
-#it indicates the branch that you currently have checked out (i.e., the branch that HEAD points to). 
-git branch
+To list the files in the current branch:
+ git ls-tree --name-only <branch>
 
-#To show allbranches (local and remotes):
-git branch --all
+Now that your staging area is set up the way you want it, you can commit your changes:
+ git commit -m "commit description ..." (<filename> for a given file OR just a commit with a comment in order to commit all staged files)
 
-#To see the last commit on each branch, you can run:
-git branch -v
+To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. 
+The git rm command does that, and also removes the file from your working directory so you don't see it as an untracked file the next time around.
+The next time you commit, the file will be gone and no longer tracked.
+ git rm <filename>
+ 
+Then:
+ git commit -m "delete file ..." <filename>
 
-#To see which branches are already merged into the branch you're on, you can run git branch --merged:
-git branch --merged
+If you want to rename a file in Git, you can run something like:
+ git mv file_from file_to
+ 
+Equivalent to:
+ mv file_from file_to
+ git rm file_from
+ git add file_to
 
-#To see all the branches that contain work you haven't yet merged in, you can run git branch --no-merged:
-git branch --no-merged
+When you run git log in this project, you should get output:
+ git log
 
-#With the rebase command, you can take all the changes that were committed on one branch and r
-#eplay them on another one.
-git checkout <branchname>
-git rebase master
+Lists version history for a file, including renames:
+ git log --follow [file]
 
-#To get the full SHA of the current branch:
-git rev-parse HEAD
+One of the more helpful options is -p, which shows the difference introduced in each commit.
+You can also use -n, which limits the output to only the last n entries:
+ git log -p -2
+ 
+Or simply:
+ git log -2
 
-#To get the shortened version:
-git rev-parse --short HEAD
+For example, if you want to see some abbreviated stats for each commit, you can use the --stat option:
+ git log --stat
 
-#There's always a "description" as well which gives:
-git describe
+However, the time-limiting options such as --since and --until are very useful. 
+For example, this command gets the list of commits made in the last two weeks:
+ git log --since=2.weeks
 
-#Check if a branch is deleted by 1st doing a fetch and prunes all origins:
-git fetch -p
-git branch -a
+Show all SHA:
+�git log --pretty=oneline
 
-#View all tags:
-git tag
+Or just a a shortened SHA:
+ git log --oneline 
 
-#Show tag details:
-git show <tag name>
+Show also the graph:
+ git log --pretty="%h %s" -- graph
+ 
+Or:
+ git log --oneline --decorate --graph --all
 
-#Create a tag
-git tag -a <tag name> -m "comment"
+Or:
+ git log --pretty=format:"%ad %h %an %s" --date=short
 
-#Create a tag on a particular commit
-git log --pretty=oneline
-#Then
-git tag -a <tag name> <sha of commit>
+If you want to see the last 3 logs for ex:
+ git log --pretty=format:"%h %s" HEAD~3..HEAD
 
-#We cannot extaract a tag so the simple way to do it is to create a branch
-git checkout -b <branch name> <tag name>
+Or:
+ git log -3 --pretty=format:"%h %s"
 
-#Push the tag
-git push origin <tag name>
-#or all tags
-git push origin --tags
+One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. 
+If you want to try that commit again, you can run commit with the --amend option.
+As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+ git commit -m 'initial commit'
+ git add forgotten_file
+ git commit --amend
 
-#Take a particular commit from the local repo:
-git cherry-pick <commit>
+To unstage a file:
+ git reset HEAD <filename>
 
-#List all logs
-git reflog
+To revert changes in the working directory itself (a file which is currently modified):
+ git checkout -- <filename>
 
-#List all logs with dates
-git reflog --date=iso
+To revert changes in the working directory from the staged area:
+ git checkout <filename>
 
-#Get a commit number (deleted previously for ex ...)
-git reset --hard <commit_number>
+To revert changes in the working directory from the local repository:
+ git checkout HEAD <filename>
 
-#To compare the current branch against master (only files)
-git diff --name-status master
+To see which remote servers you have configured, you can run the git remote command.
+ git remote
 
-#To compare any pair of branches (only files)
-git diff --name-status firstbranch..yourBranchName
-git diff --stat --color firstbranch..yourBranchName
+You can also specify -v, which shows you the URLs that Git has stored for the shortname to be used when reading and writing to that remote:
+ git remote -v
 
-#To have the diff on each file
-git diff firstbranch..yourBranchName
+To get the remote files in the local repository:
+ git fetch <filename>
+ 
+Or:
+ git fetch [remote-name]
 
-#Diff between the branch and its common ancestor
-git diff master...<my_branch>
+So, git fetch origin fetches any new work that has been pushed to that server since you cloned (or last fetched from) it
+ git fetch origin
 
-#Or a specified file
-git diff branch1 branch2 -- myfile1.js myfile2.js
+Running git pull generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you're currently working on.
+ git pull
 
-#branch1 is optional and your current branch (the branch you are on) will be considered by default if 
-#branch1 is not provided. e.g:
-git diff master -- controller/index.js
+When you have your project at a point that you want to share, you have to push it upstream. 
+ git push [remote-name] [branch-name]
 
-#Just to have a global idea what is added, deleted or modified
-git diff --name-status --diff-filter=A <branch_1 OR path_1> <branch_2 OR path_2>  
-git diff --name-status --diff-filter=D <branch_1 OR path_1> <branch_2 OR path_2>  
-git diff --name-status --diff-filter=M <branch_1 OR path_1> <branch_2 OR path_2>  
+E.g:
+ git push origin master
 
-#Do a diff for each file and choose for ex. meld as diff tool
-git difftool --tool=meld <branch_1 OR path_1> <branch_2 OR path_2>  
+To create a new branch:
+ git branch <branchname>
 
-#Change the previous commit by adding more changes
+To switch to an existing branch, you run the git checkout command. 
+Let's switch to the new branch (This moves HEAD to point to the testing branch.):
+ git checkout <branchname>
+
+Let's switch back to the master branch:
+ git checkout master
+
+To create a branch and switch to it at the same time, you can run the git checkout command with the -b switch:
+ git checkout -b <branchname>
+ 
+Shorthand for:
+ git branch <branchname>
+ git checkout <branchname>
+
+You can run your tests, make sure the new branch is what you want, and merge it back into your master branch to deploy to production.
+You do this with the git merge command:
+ git checkout master
+ git merge <branchname>
+
+After your super-important fix is deployed, you're ready to switch back to the work you were doing before you were interrupted. 
+You can delete it with the -d option to git branch:
+ git branch -d <branchname>
+
+The git branch command does more than just create and delete branches.
+If you run it with no arguments, you get a simple listing of your current branches.
+Notice the * character that prefixes the master branch, indicates the branch that you currently have checked out (i.e., the branch that HEAD points to). 
+ git branch
+
+To show allbranches (local and remotes):
+ git branch --all
+
+To see the last commit on each branch, you can run:
+ git branch -v
+
+To see which branches are already merged into the branch you're on, you can run git branch --merged:
+ git branch --merged
+
+To see all the branches that contain work you haven't yet merged in, you can run git branch --no-merged:
+ git branch --no-merged
+
+With the rebase command, you can take all the changes that were committed on one branch and replay them on another one.
+ git checkout <branchname>
+ git rebase master
+
+To get the full SHA of the current branch:
+ git rev-parse HEAD
+
+To get the shortened version:
+ git rev-parse --short HEAD
+
+There's always a "description" as well which gives:
+ git describe
+
+Check if a branch is deleted by 1st doing a fetch and prunes all origins:
+ git fetch -p
+ git branch -a
+
+View all tags:
+ git tag
+
+Show tag details:
+ git show <tag name>
+
+Create a tag:
+ git tag -a <tag name> -m "comment"
+
+Create a tag on a particular commit:
+ git log --pretty=oneline
+ 
+Then:
+ git tag -a <tag name> <sha of commit>
+
+We cannot extaract a tag so the simple way to do it is to create a branch
+ git checkout -b <branch name> <tag name>
+
+Push the tag:
+ git push origin <tag name>
+
+Or all tags:
+ git push origin --tags
+
+Take a particular commit from the local repo:
+ git cherry-pick <commit>
+
+List all logs:
+ git reflog
+
+List all logs with dates:
+ git reflog --date=iso
+
+Get a commit number (deleted previously for ex ...)
+ git reset --hard <commit_number>
+
+To compare the current branch against master (only files)
+ git diff --name-status master
+
+To compare any pair of branches (only files)
+ git diff --name-status firstbranch..yourBranchName
+ git diff --stat --color firstbranch..yourBranchName
+
+To have the diff on each file
+ git diff firstbranch..yourBranchName
+
+Diff between the branch and its common ancestor
+ git diff master...<my_branch>
+
+Or a specified file
+ git diff branch1 branch2 -- myfile1.js myfile2.js
+
+branch1 is optional and your current branch (the branch you are on) will be considered by default if branch1 is not provided. e.g:
+ git diff master -- controller/index.js
+
+Just to have a global idea what is added, deleted or modified
+ git diff --name-status --diff-filter=A <branch_1 OR path_1> <branch_2 OR path_2>  
+ git diff --name-status --diff-filter=D <branch_1 OR path_1> <branch_2 OR path_2>  
+ git diff --name-status --diff-filter=M <branch_1 OR path_1> <branch_2 OR path_2>  
+
+Do a diff for each file and choose for ex. meld as diff tool
+ git difftool --tool=meld <branch_1 OR path_1> <branch_2 OR path_2>  
+
+Change the previous commit by adding more changes
 #1. The commit is already done
-git commit -m "validation"
+ git commit -m "validation"
 #2. We add modified files on the index (very important, otherwise only the commit message will be updated)
-git add new_changes.txt
+ git add new_changes.txt
 #3. Update latest commit
-git commit --amend
+ git commit --amend
 
-#Or if the commit message is wrong we can update it by doing
-git commit --amend
+Or if the commit message is wrong we can update it by doing
+ git commit --amend
 
-#Add remoted repository
-git remote add [shortname] [url]
+Add remoted repository
+ git remote add [shortname] [url]
 
-#Inspect a remote repository
-git remote show origin
+Inspect a remote repository
+ git remote show origin
 
-#How to kick a pull request on the server using gitlab
-#Method 1
+How to kick a pull request on the server using gitlab
+Method 1:
 #1. Go in the local brach that we want to commit an push it
-git checkout <branch_name>
-git push -u origin <branch_name>
+ git checkout <branch_name>
+ git push -u origin <branch_name>
 #2. Switch to the master branch and take latest
-git checkout master
-git pull
+ git checkout master
+ git pull
 #3. Rebase the branch on the master and update refs
-git checkout <branch_name>
-git rebase master
-git push -f
+ git checkout <branch_name>
+ git rebase master
+ git push -f
 
-#Method 2
+Method 2:
 #1. Go in the local brach that we want to commit an push it
-git checkout <branch_name>
+ git checkout <branch_name>
 #2. Add remote repository as distant repository with the new name <upstream_name>
-git remote add <upstream_name> <url_of_remote_branch_name>
+ git remote add <upstream_name> <url_of_remote_branch_name>
 #3. Get latest version from the distant repository (resolve conflicts if needed)
-git fetch <upstream_name>
-#4. Merge local branch into the master branch
-git merge <upstream_name>/master
+ git fetch <upstream_name>
+#4. Merge master branch into our local branch
+ git merge <upstream_name>/master
 #5. Push the local branch on the server
-git push origin <branch_name>
+ git push origin <branch_name>
 
-#=> Create the pull request on the server side
+=> Create the pull request on the server side
 -> On the concerned repository go in the menu "Merge Requests"
 -> Then click to "New merge request"
 -> Fill in "Source branch" and "target branch" accordingly
 -> Then click on "Compare branches and continue"
 -> Give an assignee parson
--> Go to "Description" and click to "Add a task list" in order to add tasks to do 
-#(we can add here more assigned persons by @<person_id>)
+-> Go to "Description" and click to "Add a task list" in order to add tasks to do (we can add here more assigned persons by @<person_id>)
 -> Check the combobox "Remove source branch when merge is accepted"
 -> Finally, just click on "Submit merge request"
 
-#How to take and modify an existing remoted branch
-#Get all repository
-git fetch origin
-#Create the branch and point it to the existing remoted branch
-git checkout -b <work_branch> origin/<work_branch>
-#Or name it in another way if you want
-git checkout -b <perso_branch> origin/<work_branch>
+How to take and modify an existing remoted branch:
+Get all repository:
+ git fetch origin
+Create the branch and point it to the existing remoted branch
+ git checkout -b <work_branch> origin/<work_branch>
+Or name it in another way if you want
+ git checkout -b <perso_branch> origin/<work_branch>
 
-#To track a remoted branch in a new local branch, just do
-git checkout --track origin/<branch_name>
-#Or
-git checkout -b <my_local_branch> origin/<branch_name>
-#Or, if you already have a local branch
-git branch -u origin/<branch_name>
+To track a remoted branch in a new local branch, just do:
+ git checkout --track origin/<branch_name>
 
-#Change the last  commits (do a quick view using tig)
-git rebase -i HEAD~3
+Or
+ git checkout -b <my_local_branch> origin/<branch_name>
 
-#It will open a script and you must choose the actions to take:
-#Commands:
-#p, pick = use commit
-#r, reword = use commit, but edit the commit message
-#e, edit = use commit, but stop for amending
-#s, squash = use commit, but meld into previous commit
-#f, fixup = like "squash", but discard this commit's log message
-#x, exec = run command (the rest of the line) using shell
+Or, if you already have a local branch
+ git branch -u origin/<branch_name>
 
-#Most of the time we need to to edit, pick or squash comments
+Change the last  commits (do a quick view using tig)
+ git rebase -i HEAD~3
+
+It will open a script and you must choose the actions to take:
+Commands:
+ #p, pick = use commit
+ #r, reword = use commit, but edit the commit message
+ #e, edit = use commit, but stop for amending
+ #s, squash = use commit, but meld into previous commit
+ #f, fixup = like "squash", but discard this commit's log message
+ #x, exec = run command (the rest of the line) using shell
+
+Most of the time we need to to edit, pick or squash comments
+
+How to push a project under github:
+Method 1: create a new repository on the command line
+ cd /path/to/<repository>
+ echo "# test" >> README.md
+ git init
+ git add README.md
+ git commit -m "first commit"
+ git remote add origin https://github.com/<user>/<repository>.git
+ git push -u origin master
+ 
+Method 2: push an existing repository from the command line 
+ git remote add origin https://github.com/<user>/<repository>.git
+ git push -u origin master
