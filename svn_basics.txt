@@ -1,0 +1,75 @@
+1. Get information
+svn info <filename>
+
+2. Get status
+svn status <filename>
+svn status --quiet
+svn status --show-updates
+
+3. Get log
+svn log --limit <n> --revision 1:HEAD(up)/HEAD:1(down) <filename>
+svn log --limit <n> --revision 1:BASE(up)/BASE:1(down) <filename>
+svn log --limit <n> --revision {2019-01-26}:{2019-01-07} <filename>
+svn log --limit <n> --revision HEAD:BASE <filename>
+svn log --limit <n> <filename>  
+svn log --verbose --revision <revisionnumber>
+svn log --search <personname> <filename>
+
+4. Show diff
+svn diff --diff-cmd meld <filename> 
+svn diff --summarize --revision xxxx:yyyy
+
+5. Revert changes
+svn revert <filename>
+
+6. Update
+-> to do for the first time:
+svn checkout <url>
+-> then just update:
+svn up
+
+7. Commit changes
+svn commit -m "commit comment" <filename>
+
+8. Get externals
+svn propget -R svn:externals
+
+9. Resolve issues
+-> get the issue on external:
+svn up
+-> resolve the issue on the concerned external:
+svn clean up <external>
+
+10. Show branches
+svn list <url>
+svn ls <url>
+
+11. Add/delete new file
+svn add <filename>
+svn -m <commit message for add> <filename>
+svn delete <filename>
+svn -m <commit message for delete> <filename>
+
+12. Create/remove new folders
+svn mkdir --parents http://.../NewFolder/Branches http://.../NewFolder/Tags http://.../NewFolder/Trunk -m <commit message>
+svn rm http://.../NewFolder/ -m <commit message>
+
+13. Resolving conflicts with "p" option
+svn resolved <file>
+
+14. Edit externals
+svn propedit svn:externals .
+svn commit -m "commit comment" .
+
+15: Executable property
+svn propget svn:executable someScript
+svn propset svn:executable "*" someScript
+
+16. Merge (cherrypick)
+svn merge -c <revisionnumber> <source> <destination>
+
+17. Rename/delete file (or folder)
+svn move old_name new_name
+svn delete file_name
+svn -m <commit message for rename/delete> <filename>
+

@@ -1,0 +1,78 @@
+
+Host-A needs to send an IP packet to Host B.
+The network is composed by 4 devices:
+
+Host-A <---------> Router-A <---------> Router-B <---------> Host-B
+       eth0   eth0          eth1   eth0          eth1   eth0
+------------------------------------------------------------------------
+
+Host A
+IP = 1.1.1.10
+
+Local config:
+ip route add default via 1.1.1.1
+
+Host-A sends the original IP packet in an Ethernet frame to Router-A.
+The destination MAC address of the frame is the MAC address of Router-A, 
+which ensures that Router-A receives the IP packet contained within for routing.
+he destination IP address, however, is not that of Router-A; it's that of Host-B, 
+the true eventual destination of the packet 
+(in other words, the IP addresses in the packet are not modified).
+------------------------------------------------------------------------
+
+Router A
+Gateway 1 (eth0) IP = 1.1.1.1
+Gateway 2 (eth1) IP = 2.2.2.1
+
+Local config (all commands are the same):
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+sudo sysctl -w net.ipv4.ip_forward=1
+echo 1 > /proc/sys/net/ipv4/ip_forward
+To save the forwarding permanently, do:
+open /etc/rc.d/rc.local and insert the line:
+echo "1" > /proc/sys/net/ipv4/ip_forward
+
+Router-A receives the Ethernet frame and the data plane operations begin. 
+For Router-A to forward the packet on to the appropriate next hop, 
+it must know who the next hop is and the MAC address of the next hop. 
+To determine the next hop, the router inspects the destination IP address of the IP packet 
+(IP routing is always based upon the destination IP address). 
+Router-A references the local route table for an entry that matches 
+the destination IP address (3.3.3.10) and finds that 3.3.3.0/24 
+is reachable via a next hop IP address of 2.2.2.2 (Router-B).
+The source MAC address is also rewritten to the MAC address of the eth1 
+interface on Router-A so that Router-B knows it received the frame from Router-A. 
+It is this process of rewriting the frame MAC addresses that represents 
+the key concept of data plane operations—A router does not modify 
+the source or destination IP addresses of IP packets that are being delivered, 
+but rather it must rewrite the destination and source MAC address 
+so that the IP packet can be delivered over the LAN to the next hop.
+The rewritten Ethernet frame containing the IP packet is sent to Router-B.
+------------------------------------------------------------------------
+
+Router B
+Gateway 1 (eth0) IP = 2.2.2.2
+Gateway 2 (eth1) IP = 3.3.3.1
+
+Local config (all commands are the same):
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+sudo sysctl -w net.ipv4.ip_forward=1
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+Router-B receives the frame from Router-A and examines the 
+destination IP address of the packet. 
+Because the destination IP address is that of a host that is locally connected, 
+Router-B can complete the delivery by sending the packet to Host-B. 
+Because Host-B is connected via Ethernet to Router-B, 
+Router-B must send the IP packet inside an Ethernet frame addressed to Host-B. 
+The same rewrite of the destination (and source) MAC address that 
+was described above takes place, 
+and the frame is delivered to its final destination, Host-B.
+------------------------------------------------------------------------
+
+Host B
+IP = 3.3.3.10
+
+Local config:
+ip route add default via 3.3.3.1
+------------------------------------------------------------------------
