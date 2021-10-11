@@ -18,6 +18,8 @@ svn log --search <personname> <filename>
 4. Show diff
 svn diff --diff-cmd meld <filename> 
 svn diff --summarize --revision xxxx:yyyy
+svn diff -r HEAD <filename>
+svn diff -r PREV:COMMITTED <filename>
 
 5. Revert changes
 svn revert <filename>
